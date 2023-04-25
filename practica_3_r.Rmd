@@ -1,0 +1,99 @@
+---
+title: "Practica_3 Variables aleatorias discretas"
+output: html_document
+date: '2023-03-30'
+---
+
+```{r}
+
+```
+
+## 7. En un curso hay 50 alumnos: 23 varones y 27 mujeres. Se elige un equipo de tres alumnos para dar una clase especial.
+
+a)  ¿Cual es la probabilidad de que haya al menos un var´on en el equipo?
+b)  ¿Cual es la probabilidad de que el equipo sea mixto?
+
+```{r}
+P(solo mujeres) = (27 choose 3) / (50 choose 3)
+P(al menos un varón) = 1 - P(solo mujeres)
+
+
+```
+
+```{r}
+# Número de formas en que se pueden seleccionar tres mujeres de un grupo de 27
+num_mujeres <- choose(27, 3)
+
+# Número total de formas en que se pueden seleccionar tres alumnos de un grupo de 50
+num_total <- choose(50, 3)
+
+# Probabilidad de que el equipo esté compuesto solo por mujeres
+P_solo_mujeres <- num_mujeres / num_total
+
+# Probabilidad de que haya al menos un varón en el equipo
+P_al_menos_un_varon <- 1 - P_solo_mujeres
+
+P_al_menos_un_varon
+
+
+```
+
+###Para decidir si acepta o rechaza una partida de productos, un comprador elige k articulos (sin reemplazo) de un lote de 100, y rechaza el lote si ###encuentra uno o mas defectuosos. a) Suponiendo que k = 5, grafucar la probabilidad de que el lote se acepte como una funcion del numero de articulos defectuosos en el lote.
+
+```{r}
+k <- 5  # número de artículos que se eligen
+n <- 100  # tamaño del lote
+defectuosos <- 0:8  # posibles números de artículos defectuosos en el lote
+
+# calcular la probabilidad de aceptación del lote para cada posible número de artículos defectuosos
+prob_aceptacion <- sapply(defectuosos, function(d) {
+  choose(n-d, k) / choose(n, k)
+})
+
+# graficar la probabilidad de aceptación del lote en función del número de artículos defectuosos
+plot(defectuosos, prob_aceptacion, type = "o", xlab = "Número de artículos defectuosos", ylab = "Probabilidad de aceptación del lote")
+
+```
+
+```{r}
+# Función para calcular el número de permutaciones derangement
+derangement <- function(n) {
+  if(n==0) return(1)
+  if(n==1) return(0)
+  return((n-1) * (derangement(n-1) + derangement(n-2)))
+}
+
+# Valores de N
+N <- 2:10
+
+# Probabilidad de que ninguna ficha esté en su lugar correcto
+p <- sapply(N, function(n) derangement(n)/factorial(n))
+
+# Gráfico
+plot(N, p, type="b", ylim=c(0,0.4), xlab="N", ylab="P(ninguna ficha en su lugar correcto)", main="Probabilidad de derangement")
+abline(h=1/exp(1), col="red")
+
+```
+
+```{r}
+probabilidad <- function(n) {
+  if (n == 1) {
+    return(0)
+  } else if (n == 2) {
+    return(1/2)
+  } else {
+    return((n-1)*(probabilidad(n-1) + probabilidad(n-2)))
+  }
+}
+# Valores de N
+N <- 2:10
+
+# Probabilidad de que ninguna ficha esté en su lugar correcto
+p <- sapply(N, function(N) probabilidad(N)/factorial(N))
+
+# Gráfico
+plot(N, p, type="b", ylim=c(0,0.4), xlab="N", ylab="P(ninguna ficha en su lugar correcto)", main="Probabilidad de derangement")
+abline(h=1/exp(1), col="red")
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.

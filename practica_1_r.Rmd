@@ -1,0 +1,293 @@
+---
+title: "Practica1_Proba"
+output: html_document
+date: '2023-04-23'
+---
+
+#### 1 Se arroja una moneda tres veces y se registra la secuencia de caras y cecas obtenida.
+
+a) Dar una lista del espacio muestral.
+
+b) Dar una lista de los elementos que componen los siguientes eventos:
+
+A = {al menos dos tiros son cara}
+
+B = {los primeros dos tiros son cara}
+
+C = {el último tiro es ceca}
+
+Dar una lista de los elementos que componen los siguientes eventos:
+
+$Ac$ $[ A \cap B ]$ $[A \cup C]$
+
+a) C = cara F = ceca
+
+$\omega$ = { CCC, CCF, CFF, CFC, FFF, FFC, FCC, FCF}
+
+b) A = {CCC, CCF, CFC, FCC}
+
+B = {CCC, CCF}
+
+C = {FFF, CCF, CFF, FCF}
+
+c) $Ac$ = { FFC, FCF, FFF}
+
+$[ A \cap B ]$ = {CCC, CCF}
+
+$[A \cup C]$ = { CCC, CCF, CFC, FCC, FFF, CFF, FCF}
+
+#### 2. Sean A y B eventos arbitrarios. Sea C el evento que o bien ocurre A o bien ocurre B,pero no ambos. Expresar a C en términos de A y B usando las operaciones básicas de unión, intersección y complemento.
+
+$C$ = $[ A \cap Bc ]$
+
+$C$ = $[ Ac \cap B ]$
+
+#### $C$ =  $[ A \cap B]$  
+
+3. Sean A y B dos eventos de un espacio muestral. Se sabe que la probabilidad de que ocurra alguno de los dos eventos es 0.8 y la probabilidad de que ocurra exactamente uno de los dos eventos es 0.5.            
+
+-   a) Hallar la probabilidad de que ocurran ambos eventos
+
+-   b) Hallar la probabilidad de que no ocurra ninguno de los dos eventos.
+
+    a) P( $A \cup B$ ) = P($A$) + P($B$) - P($A \cap B$)
+
+    P($Asolo$) = $[ A \cap B{c}]$ = 0.5
+
+P($Bsolo$) = $[ A{c} \cap B]$ = 0.5
+
+P( $A \cap B$ ) = P($A \cup B$) - P($Bsolo$) = 0.8 - 0.5 = 0.3
+
+b ) P( $(A \cap B){c}$ ) = 1 - P($A \cup B$) = 1 - 0.8 = 0.2
+
+#### 4. Calcular P(A); P(B) y P(C) del ejercicio 1. 
+
+$\omega$ = { CCC, CCF, CFF, CFC, FFF, FFC, FCC, FCF}
+
+A = {CCC, CCF, CFC, FCC} 6 casos positivos P(A) = $\frac{6}{8}$
+
+B = {CCC, CCF} 2 casos positivos P(B) = $\frac{2}{8}$
+
+C = {FFF, CCF, CFF, FCF}P(B) = $\frac{4}{8}$
+
+#### 5) Se tira 6 veces un dado, ¿Cuál es la probabilidad de que salga la cara del 5 las seis veces?
+
+$\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}$
+
+#### 6. La paradoja de Mere. ¿Cuál de los siguientes es más probable? a) Sacar al menos un 6 al tirar cuatro veces un dado. b) Sacar al menos un doble 6 al tirar 24 veces un par de dados.
+
+a) P(6) = sacar al menos un 6 en 4 tiradas
+
+P($6{c}$) = No sacar ningun 6 en 4 tiradas
+
+P($6{c}$) = $\frac{5}{6}$ \* $\frac{5}{6}$ \* $\frac{5}{6}$ \* $\frac{5}{6}$ = $\frac{625}{1296}$
+
+P(6) = 1 - P($6{c}$) = 1 - $\frac{625}{1296}$ = $\frac{671}{1296}$
+
+P(d6) = sacar al menos un doble 6 en 24 tiradas
+
+P($d6{c}$)= no sacar ningun doble 6 en 24 tiradas\
+P($d6{c}$) = $(\frac{35}{36})^{24}$
+
+P(d6) = 1 - P($d6{c}$) = 1 - $(\frac{35}{36})^{24}$
+
+#### 
+7. En un curso hay 50 alumnos: 23 varones y 27 mujeres. Se elige un equipo de tres alumnos para dar una clase especial. 
+
+#### a) ¿Cuál es la probabilidad de que haya al menos un varón en el equipo? 
+
+```{r}
+# Número de formas en que se pueden seleccionar tres mujeres de un grupo de 27
+num_mujeres = choose(27, 3)
+
+# Número total de formas en que se pueden seleccionar tres alumnos de un grupo de 50
+num_total = choose(50, 3)
+
+# Probabilidad de que el equipo esté compuesto solo por mujeres
+P_solo_mujeres = num_mujeres / num_total
+
+# Probabilidad de que haya al menos un varón en el equipo
+P_al_menos_un_varon = 1 - P_solo_mujeres
+
+P_al_menos_un_varon
+
+```
+
+#### b) ¿Cuál es la probabilidad de que el equipo sea mixto?
+
+```{r}
+#numero de formas considerando que pueden ser dos mujeres
+dos_mujer = choose(27, 2)
+#numero de formas consideranco que se pueden elegir 1 varon
+un_varon = choose(23 ,1) 
+# Número total de formas en que se pueden seleccionar tres alumnos de un grupo de 50
+num_total = choose(50, 3)
+
+c_1 = (dos_mujer * un_varon) / num_total
+
+#numero de formas considerando que puede ser una mujer
+un_mujer = choose(27, 1)
+#numero de formas consideranco que se pueden elegir 2 varones
+dos_varon = choose(23 ,2)
+
+c_2 = (un_mujer * dos_varon) / num_total
+
+probabilidad_mixto = c_1 + c_2 
+probabilidad_mixto
+```
+
+#### 8. Se tienen 4 fichas numeradas del 1 al 4, puestas todas en una hilera en forma aleatoria. ¿Cuál es la probabilidad de que la secuencia de fichas sea el número 4231?
+
+4! es la cantidad de formas que se pueden permutar las fichas. 
+
+P(4231)  = 1/24. 
+
+#### 9. Se tienen 7 fichas numeradas del 1 al 7, puestas todas en una hilera en forma aleatoria.
+
+#### a) ¿Cuál es la probabilidad de que el número elegido tenga la secuencia 123?
+
+123\_ \_ \_ \_
+
+4! / 7! 
+
+```{r}
+#segun el profe 
+factorial(5)/factorial(7)
+```
+
+#### b) ¿Cuál es la probabilidad de que el número elegido tenga el 1 delante del 2 y este último delante del 3?
+
+123\_ \_ \_ \_   4!
+
+\_ 123 \_ \_ \_  4!
+
+\_ \_ 123 \_ \_  4!                  (5 x 4!) / 7! 
+
+\_ \_ \_ 123\_   4!
+
+\_ \_ \_ \_ 123  4! 
+
+c) Verifique el ítem b) con Rexacto.
+
+```{r}
+#segun el profe combinatoria de (7 3) * 4! todo dividido 7! 
+
+(choose(7, 3) * factorial(4))/factorial(7)
+```
+
+#### 10. Se tienen N chas numeradas del 1 al N y puestas todas en una hilera en forma aleatoria. a) Suponiendo que N=9, ¿cuál es la probabilidad de que ninguna se encuentre en el lugar que le corresponde por orden? Responda con R exacto. b) Repita el ítem anterior para N=2,3,4,5,6,7,8,9,10 y grafique probabilidad de que ninguna se encuentre en el lugar que le corresponde por orden en función de N. ¿Converge a algún valor esta probabilidad? Grafique con un línea horizontal el valor 1/e. En probabilidad 1/e es un valor bastante típico.
+
+```{r}
+# Función para calcular el número de permutaciones derangement
+derangement <- function(n) {
+  if(n==0) return(1)
+  if(n==1) return(0)
+  return((n-1) * (derangement(n-1) + derangement(n-2)))
+}
+
+# Valores de N
+N <- 2:10
+
+# Probabilidad de que ninguna ficha esté en su lugar correcto
+p <- sapply(N, function(n) derangement(n)/factorial(n))
+
+# Gráfico
+plot(N, p, type="b", ylim=c(0,0.4), xlab="N", ylab="P(ninguna ficha en su lugar correcto)", main="Probabilidad de derangement")
+abline(h=1/exp(1), col="red")
+
+```
+
+#### 11. En un juego de póker (en el que un jugador recibe cinco cartas al azar de un mazo de 52 cartas), cuál es la probabilidad de que una mano contenga:
+
+#### a) una escalera real (es decir, cinco cartas del mismo palo en secuencia numérica, se admite la secuencia que termina en as)?
+
+```{r}
+(10 * 4) / choose(52,5) 
+```
+
+#### b) una escalera con cartas de al menos dos palos distintos?
+
+```{r}
+(10 * 4^5 - 10 * 4) / choose(52,5)
+```
+
+#### c) un póker (o sea, cuatro cartas de igual número)?
+
+```{r}
+(choose(12,1) * choose(48,1)) / choose(52,5)
+```
+
+#### d) un full (es decir, tres cartas de un valor y dos cartas de otro)?
+
+```{r}
+(choose(12,2) * choose(4,3) * choose(4,2) * 2)  / choose(52,5) 
+```
+
+#### 12.¿ El número $\pi$  tienen a los números 0; 1; : : : 9 en forma equiprobable? Utilizando R y a partir de "<http://www.geom.uiuc.edu/>huberty/math5337/groupe/digits.html" calcule la probabilidad empírica de que el dígito i (0; 1; : : : ; 9) aparezca en la secuencia de números correspondiente a $\pi$.
+
+```{r}
+url = readLines (" https ://www. piday .org/ million /")
+pii =url [21]
+sal = strsplit (pii ,"</div ></div ></div ></ article >")
+sal2 = strsplit (sal [[1]][1] , "data - page =\"1\">")
+pii = sal2 [[1]][2]
+num_pii = strsplit (pii , split ="")
+class (num_pii)
+num_pii=num_pii[[1]]
+num_pii=num_pii[ -2] # sacamos el punto 3.149
+num_pii=as.numeric(num_pii)
+```
+
+#### 13. Determine lo mismo que el item anterior pero para el numero e. Saque los digitos de \\[https://apod.nasa.gov/htmltest/gifcity/e.2mil"](https://apod.nasa.gov/htmltest/gifcity/e.2mil")
+
+```{r}
+url=" https :// apod . nasa .gov/ htmltest / gifcity /e.2 mil"
+thepage = readLines (url )
+n1 =20; n2= length ( thepage )
+num_e= paste ( thepage [n1:n2], collapse ="")
+num_e=( as.vector ( strsplit (num_e, split ="")))
+num_e=num_e [[1]][ - c(1 ,3)]
+num_e=as.numeric (num_e)
+```
+
+14\. En un grupo de r personas a) Cuál es la probabilidad de que haya al menos una pareja que cumpla el mismo día? Graque en la probabilidad hallada en funcion de r.
+
+```{r}
+#P(A) = al menos una pareja de r cumple al mismo dia
+#P(Ac) = nadie cumple al mismo día
+P(Ac) = (365 - r - 1) / 365^r
+P(A) = 1 - P(Ac) 
+
+```
+
+b) Cuál es la probabilidad de que al menos dos cumplan en un mismo mes?
+
+```{r}
+#P(A) = al menos una pareja de r cumple al mismo mes
+#P(Ac) = nadie cumple al mismo mes
+P(Ac) = (12 - r - 1) / 12^r
+P(A) = 1 - P(Ac) 
+
+```
+
+#### 15. Para decidir si acepta o rechaza una partida de productos, un comprador elige k artículos (sin reemplazo) de un lote de 100, y rechaza el lote si encuentra uno o más defectuosos. a) Suponiendo que k= 5, graficar en R la probabilidad de que el lote se acepte como una función del número de artículos defectuosos en el lote. 
+
+```{r}
+# número de artículos que se eligen
+k = 5 
+# tamaño del lote
+n = 100  
+# posibles números de artículos defectuosos en el lote
+defectuosos = 0:8  
+# calcular la probabilidad de aceptación del lote para cada posible número de artículos defectuosos
+prob_aceptacion = sapply(defectuosos, function(d) {choose(n-d, k) / choose(n, k)})
+# graficar la probabilidad de aceptación del lote en función del número de artículos defectuosos
+plot(defectuosos, prob_aceptacion, type = "o", xlab = "Número de artículos defectuosos", ylab = "Probabilidad de aceptación del lote")
+
+```
+
+#### b) Suponiendo que en el lote hay 10 artículos defectuosos, ¿cuántos artículos hay que elegir (k) para que la probabilidad de que aparezca al menos un artículo defectuoso sea al menos 0.90? Responda la pregunta utilizando R.
+
+```{r}
+
+```

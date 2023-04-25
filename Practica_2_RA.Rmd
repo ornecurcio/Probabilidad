@@ -1,0 +1,87 @@
+---
+title: "Practica_2 Reglas de asociacion"
+output: html_document
+date: '2023-03-30'
+---
+
+\## Reglas de Asociación. \### 1. Cargar los datos "datos_groceries.csv" y observar cómo vienen lo datos. ¿Qué representa la variable id_compra?
+
+```{r}
+
+datos = read.csv("datos_groceries.csv")
+datos
+```
+
+#### a) ¿Cuántas compras tiene la base?
+
+```{r}
+compras_len = count(datos,id_compra)
+compras_len
+
+
+```
+
+#### b) ¿Cuántas productos distintos se vendieron?
+
+```{r}
+item_dist = count(datos,item)
+#item_dist = sort(item_dist$item, item_dist$n, decreasing = FALSE)
+item_dist
+
+
+```
+
+### c) Calcule el soporte de cada ítem.
+
+```{r}
+# Contar la frecuencia de cada producto en el dataframe
+frecuencia_productos <- table(datos$item)
+
+# Mostrar la frecuencia de cada producto
+frecuencia_productos
+
+# Contar el número total de compras en el dataframe
+n_compras <- length(unique(datos$id_compra))
+
+# Calcular el soporte de cada producto
+soporte_productos <- frecuencia_productos / n_compras
+
+# Mostrar el soporte de cada producto
+soporte_productos
+
+```
+
+### d) Calcule el soporte de {whole milk, yogurt}.
+
+```{r}
+
+#class(frecuencia_productos)
+#datos
+
+# Calcular el soporte de {whole milk, yogurt}
+soporte_wm_yogurt <- nrow(subset(datos, item == "whole milk" & id_compra %in% subset(datos, item == "yogurt")$id_compra)) 
+
+# Mostrar el soporte de {whole milk, yogurt}
+soporte_wm_yogurt
+
+
+```
+
+### Utilizando la librery arules calcule las reglas de asociación que tengan un soporte mayor a 0.005 y un confianza mayor a 0.7.
+
+```{r}
+
+
+
+
+```
+
+#### a) ¿Cuántas reglas obtuvo?
+
+```{r}
+```
+
+#### b) Seleccione las reglas que tengan del lado izquierdo "tropical fruit" y "yogurt". Hint: Utilice el comando subset(reglas,subset=lhs...)
+
+```{r}
+```
