@@ -6,9 +6,9 @@ date: '2023-04-23'
 
 #### 1 Se arroja una moneda tres veces y se registra la secuencia de caras y cecas obtenida.
 
-a) Dar una lista del espacio muestral.
+a)  Dar una lista del espacio muestral.
 
-b) Dar una lista de los elementos que componen los siguientes eventos:
+b)  Dar una lista de los elementos que componen los siguientes eventos:
 
 A = {al menos dos tiros son cara}
 
@@ -20,17 +20,17 @@ Dar una lista de los elementos que componen los siguientes eventos:
 
 $Ac$ $[ A \cap B ]$ $[A \cup C]$
 
-a) C = cara F = ceca
+a)  C = cara F = ceca
 
 $\omega$ = { CCC, CCF, CFF, CFC, FFF, FFC, FCC, FCF}
 
-b) A = {CCC, CCF, CFC, FCC}
+b)  A = {CCC, CCF, CFC, FCC}
 
 B = {CCC, CCF}
 
 C = {FFF, CCF, CFF, FCF}
 
-c) $Ac$ = { FFC, FCF, FFF}
+c)  $Ac$ = { FFC, FCF, FFF}
 
 $[ A \cap B ]$ = {CCC, CCF}
 
@@ -42,15 +42,19 @@ $C$ = $[ A \cap Bc ]$
 
 $C$ = $[ Ac \cap B ]$
 
-#### $C$ =  $[ A \cap B]$  
+#### $C$ = $[ A \cap B]$
 
-3. Sean A y B dos eventos de un espacio muestral. Se sabe que la probabilidad de que ocurra alguno de los dos eventos es 0.8 y la probabilidad de que ocurra exactamente uno de los dos eventos es 0.5.            
+3.  Sean A y B dos eventos de un espacio muestral. Se sabe que la probabilidad de que ocurra alguno de los dos eventos es 0.8 y la probabilidad de que ocurra exactamente uno de los dos eventos es 0.5.
 
--   a) Hallar la probabilidad de que ocurran ambos eventos
+-   
 
--   b) Hallar la probabilidad de que no ocurra ninguno de los dos eventos.
+    a)  Hallar la probabilidad de que ocurran ambos eventos
 
-    a) P( $A \cup B$ ) = P($A$) + P($B$) - P($A \cap B$)
+-   
+
+    b)  Hallar la probabilidad de que no ocurra ninguno de los dos eventos.
+
+    c)  P( $A \cup B$ ) = P($A$) + P($B$) - P($A \cap B$)
 
     P($Asolo$) = $[ A \cap B{c}]$ = 0.5
 
@@ -76,7 +80,7 @@ $\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}$ \* $\frac{1}{6}
 
 #### 6. La paradoja de Mere. ¿Cuál de los siguientes es más probable? a) Sacar al menos un 6 al tirar cuatro veces un dado. b) Sacar al menos un doble 6 al tirar 24 veces un par de dados.
 
-a) P(6) = sacar al menos un 6 en 4 tiradas
+a)  P(6) = sacar al menos un 6 en 4 tiradas
 
 P($6{c}$) = No sacar ningun 6 en 4 tiradas
 
@@ -92,9 +96,10 @@ P($d6{c}$) = $(\frac{35}{36})^{24}$
 P(d6) = 1 - P($d6{c}$) = 1 - $(\frac{35}{36})^{24}$
 
 #### 
-7. En un curso hay 50 alumnos: 23 varones y 27 mujeres. Se elige un equipo de tres alumnos para dar una clase especial. 
 
-#### a) ¿Cuál es la probabilidad de que haya al menos un varón en el equipo? 
+7.  En un curso hay 50 alumnos: 23 varones y 27 mujeres. Se elige un equipo de tres alumnos para dar una clase especial.
+
+#### a) ¿Cuál es la probabilidad de que haya al menos un varón en el equipo?
 
 ```{r}
 # Número de formas en que se pueden seleccionar tres mujeres de un grupo de 27
@@ -151,7 +156,7 @@ P(4231)  = 1/24. 
 4! / 7! 
 
 ```{r}
-#segun el profe 
+#segun el profe porque el 123 se comporta como una ficha! 
 factorial(5)/factorial(7)
 ```
 
@@ -167,10 +172,11 @@ factorial(5)/factorial(7)
 
 \_ \_ \_ \_ 123  4! 
 
-c) Verifique el ítem b) con Rexacto.
+c)  Verifique el ítem b) con Rexacto.
 
 ```{r}
 #segun el profe combinatoria de (7 3) * 4! todo dividido 7! 
+#la combinatoria fija los lugares. La permutacion el resto y los divido por el total. 
 
 (choose(7, 3) * factorial(4))/factorial(7)
 ```
@@ -202,12 +208,14 @@ abline(h=1/exp(1), col="red")
 #### a) una escalera real (es decir, cinco cartas del mismo palo en secuencia numérica, se admite la secuencia que termina en as)?
 
 ```{r}
+#diez son los comienzos que puede tener la escalera. por cuatro palos sobre la combinatoria de 5 en 52
 (10 * 4) / choose(52,5) 
 ```
 
 #### b) una escalera con cartas de al menos dos palos distintos?
 
 ```{r}
+#todas las escaleras incluso las de mismo palo y le resto esas
 (10 * 4^5 - 10 * 4) / choose(52,5)
 ```
 
@@ -223,7 +231,7 @@ abline(h=1/exp(1), col="red")
 (choose(12,2) * choose(4,3) * choose(4,2) * 2)  / choose(52,5) 
 ```
 
-#### 12.¿ El número $\pi$  tienen a los números 0; 1; : : : 9 en forma equiprobable? Utilizando R y a partir de "<http://www.geom.uiuc.edu/>huberty/math5337/groupe/digits.html" calcule la probabilidad empírica de que el dígito i (0; 1; : : : ; 9) aparezca en la secuencia de números correspondiente a $\pi$.
+#### 12.¿ El número $\pi$ tienen a los números 0; 1; : : : 9 en forma equiprobable? Utilizando R y a partir de "<http://www.geom.uiuc.edu/>huberty/math5337/groupe/digits.html" calcule la probabilidad empírica de que el dígito i (0; 1; : : : ; 9) aparezca en la secuencia de números correspondiente a $\pi$.
 
 ```{r}
 url = readLines (" https ://www. piday .org/ million /")
@@ -238,7 +246,7 @@ num_pii=num_pii[ -2] # sacamos el punto 3.149
 num_pii=as.numeric(num_pii)
 ```
 
-#### 13. Determine lo mismo que el item anterior pero para el numero e. Saque los digitos de \\[https://apod.nasa.gov/htmltest/gifcity/e.2mil"](https://apod.nasa.gov/htmltest/gifcity/e.2mil")
+#### 13. Determine lo mismo que el item anterior pero para el numero e. Saque los digitos de \\<https://apod.nasa.gov/htmltest/gifcity/e.2mil%22>
 
 ```{r}
 url=" https :// apod . nasa .gov/ htmltest / gifcity /e.2 mil"
@@ -250,7 +258,7 @@ num_e=num_e [[1]][ - c(1 ,3)]
 num_e=as.numeric (num_e)
 ```
 
-14\. En un grupo de r personas a) Cuál es la probabilidad de que haya al menos una pareja que cumpla el mismo día? Graque en la probabilidad hallada en funcion de r.
+#### 14. En un grupo de r personas a) Cuál es la probabilidad de que haya al menos una pareja que cumpla el mismo día? Graque en la probabilidad hallada en funcion de r.
 
 ```{r}
 #P(A) = al menos una pareja de r cumple al mismo dia
@@ -260,7 +268,7 @@ P(A) = 1 - P(Ac)
 
 ```
 
-b) Cuál es la probabilidad de que al menos dos cumplan en un mismo mes?
+#### b) Cuál es la probabilidad de que al menos dos cumplan en un mismo mes?
 
 ```{r}
 #P(A) = al menos una pareja de r cumple al mismo mes
@@ -270,7 +278,7 @@ P(A) = 1 - P(Ac)
 
 ```
 
-#### 15. Para decidir si acepta o rechaza una partida de productos, un comprador elige k artículos (sin reemplazo) de un lote de 100, y rechaza el lote si encuentra uno o más defectuosos. a) Suponiendo que k= 5, graficar en R la probabilidad de que el lote se acepte como una función del número de artículos defectuosos en el lote. 
+#### 15. Para decidir si acepta o rechaza una partida de productos, un comprador elige k artículos (sin reemplazo) de un lote de 100, y rechaza el lote si encuentra uno o más defectuosos. a) Suponiendo que k= 5, graficar en R la probabilidad de que el lote se acepte como una función del número de artículos defectuosos en el lote.
 
 ```{r}
 # número de artículos que se eligen

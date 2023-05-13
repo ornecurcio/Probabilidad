@@ -1,0 +1,151 @@
+---
+title: "Untitled"
+output: html_document
+date: '2023-05-07'
+---
+
+# Trabajo Practico Integrador
+
+Modelo A
+
+Plantear un modelo donde todas las v.a. para describir el vuelo sean independientes.
+
+(a) Suponer que el vuelo de la mosca parte del centro de la mesa. Estudiar la distribucion de $\tau$ .
+(b) Se parece a alguna de las que vimos? Cuales serian los parametros aproximadamente de esa distribucion?
+
+```{r}
+
+n_simulaciones <- 100000
+radio_mesa <- 100 # cm
+posicion_inicial <- c(0, 0) # Centro de la mesa
+velocidad = 10 #cm / seg
+contador_while = 0
+
+#declaro la funcion
+fuera_de_mesa <- function(posicion, radio) {
+  return(sqrt(sum(posicion^2)) > radio)
+}
+
+
+# Realizar las simulaciones
+tau <- numeric(n_simulaciones)
+iteraciones_while <- numeric(n_simulaciones)
+
+
+for (i in 1:n_simulaciones) {
+  posicion <- posicion_inicial
+  tiempo <- 0
+  contador_while = 0
+  #evaluando si estoy afuera o adentro de la mesa
+  while (!fuera_de_mesa(posicion, radio_mesa)) {
+    angulo <- runif(1, 0, 360)
+    #cat("El angulo es",angulo, "\n")
+    #velocidad <- abs(rnorm(1, mu_velocidad, sigma_velocidad))
+    distancia <- runif(1, 10, 30) # cm
+    tiempo_segmento <- distancia / velocidad
+    posicion <- posicion + c(distancia * cos(angulo), distancia * sin(angulo))
+    tiempo <- tiempo + tiempo_segmento
+    #cat("El tiempo del segmento es", tiempo_segmento,"\n")
+    #print('')
+    contador_while = 1 + contador_while
+  }
+ 
+  tau[i] <- tiempo
+  #cat("El tiempo es",tiempo,"\n")
+  #cat("El tau es",tau[i],"\n")
+    #print('')
+}
+
+# mean_tau <- mean(tau)
+# median_tau <- median(tau)
+# sd_tau <- sd(tau)
+# quantiles_tau <- quantile(tau)
+
+hist(tau[tau<150], main = "Histograma de Tau", xlab = "Tiempo (segundos)", ylab = "Frecuencia", col = "lightblue", border = "black", breaks = 100)
+
+
+# cat("Media de Tau:", mean_tau, "\n")
+# 
+# cat("Mediana de Tau:", median_tau, "\n")
+# 
+# cat("Desviación estándar de Tau:", sd_tau, "\n")
+# 
+# cat("Cuartiles de Tau:", quantiles_tau, "\n")
+
+```
+
+b\. Idem (a) pero ahora suponer que la mosca comienza su vuelo en otra posicion ja determinada
+
+por usted (que no es el centro de la mesa).
+
+```{r}
+
+# Parámetros
+n_simulaciones <- 10000
+radio_mesa <- 10
+posicion_inicial <- c(3, 3)  # Posición inicial (x0, y0)
+velocidad <- 2
+max_angulo_cambio <- pi / 6  # Máximo cambio de ángulo en cada segmento de vuelo
+longitud_segmento <- 0.5  # Longitud de cada segmento de vuelo
+
+# Función para simular un segmento de vuelo
+simular_segmento_vuelo <- function(posicion, direccion, velocidad, longitud) {
+  x <- posicion[1] + longitud * cos(direccion)
+  y <- posicion[2] + longitud * sin(direccion)
+  tiempo <- longitud / velocidad
+  return(list(posicion = c(x, y), tiempo = tiempo))
+}
+
+# Función para simular el tiempo que tarda la mosca en escapar de la mesa
+simular_tiempo_escape <- function(n, posicion, radio, max_angulo, longitud) {
+  tiempos_escape <- numeric(n)
+  
+  for (i in 1:n) {
+    posicion_actual <- posicion
+    tiempo_total <- 0
+    direccion <- runif(1, 0, 2 * pi)
+    velocidad <- rnorm(1, mu, sigma)
+    
+    while (sqrt(sum((posicion_actual)^2)) < radio) {
+      # Simular un segmento de vuelo
+      vuelo <- simular_segmento_vuelo(posicion_actual, direccion, velocidad, longitud)
+      posicion_actual <- vuelo$posicion
+      tiempo_total <- tiempo_total + vuelo$tiempo
+      
+      # Cambiar la dirección aleatoriamente
+      cambio_direccion <- runif(1, -max_angulo, max_angulo)
+      direccion <- direccion + cambio_direccion
+    }
+    
+    tiempos_escape[i] <- tiempo_total
+  }
+  
+  return(tiempos_escape)
+}
+
+# Simular n tiempos de escape
+tiempos_escape <- simular_tiempo_escape(n_simulaciones, posicion_inicial, radio_mesa, mu_velocidad, sigma_velocidad, max_angulo_cambio, longitud_segmento)
+
+# Calcular estadísticas descriptivas
+media_tiempo_escape <- mean(tiempos_escape)
+sd_tiempo_escape <- sd(tiempos_escape)
+
+cat("Media del tiempo de escape:", media_tiempo_escape, "\n")
+cat("Desviación estándar del tiempo de escape:", sd_tiempo_escape, "\n")
+
+# Visualizar histograma de los tiempos de escape
+hist(tiempos_escape, main = "Histograma de tiempos de escape", xlab = "Tiempo de escape", col = "lightblue", border = "black")
+
+```
+
+c\. Estimar la esperanza de $\tau$ para 10 posiciones iniciales del vuelo distintas. Cada una de estas 10 posiciones elegidas se encuentra descripta, entre otras cosas, por la distancia al centro de la mesa. Graficar la estimacion de la esperanza de $\tau$ en funcion de la distancia que hay de la posicion inicial al centro de la mesa.
+
+```{r}
+armar el for, tomar las 
+```
+
+PREGUNTAS A DANI:
+
+A y B ) \> Cuales seran los parametros aproximadamente de
+
+esa distribucion? LAS VELOCIDADES SON NEGATIVAS, COMO LO PODEMOS SOLUCIONAR. Absoluto esta bien? deberia ser gamma? se puede truncar la normal?

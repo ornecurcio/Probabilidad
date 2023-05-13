@@ -1,0 +1,158 @@
+---
+title: "Practica_6"
+output: html_document
+date: '2023-05-04'
+---
+
+```{r}
+
+```
+
+```{r cars}
+summary(cars)
+```
+
+## 1. Mostrar el Teorema Central del limite utilizando R aprox. Suponga que las variables
+
+X1;X2; : : : ; tienen una ley:
+
+a)  Uniforme[0,1]
+
+b)  Normal[10,1]
+
+c)  Exponencial[1]
+
+d)  Cauchy ¿Que pasa en este caso?
+
+```{r}
+# Simular variables aleatorias de distribución uniforme
+#x <- runif(10000, 0, 1)
+
+# Calcular la suma acumulada
+#y <- cumsum(x)
+
+# Visualizar la distribución de las sumas
+#hist(y, breaks = 1000, probability = TRUE, main = "Distribución de la suma de variables uniformes")
+#curve(dnorm(x, mean = mean(y), sd = sd(y)), add = TRUE, col = "red")
+
+
+promedios_uniforme = vector()
+n = 300
+i=0
+for(i in i:n){
+  promedios[i] = mean(runif(100,0,1))
+}
+
+hist(promedios)
+```
+
+```{r}
+promedios_normal = vector()
+n = 300
+i=0
+for(i in i:n){
+  promedios_normal[i] = mean(rnorm(22,10,1))
+}
+hist(promedios_normal)
+```
+
+```{r}
+# Simular variables aleatorias de distribución normal
+x <- rnorm(10000, 10, 1)
+
+# Calcular la suma acumulada
+y <- cumsum(x)
+
+# Visualizar la distribución de las sumas
+hist(y, breaks = 1000, probability = TRUE, main = "Distribución de la suma de variables normales")
+curve(dnorm(x, mean = mean(y), sd = sd(y)), add = TRUE, col = "red")
+
+```
+
+```{r}
+# Simular variables aleatorias de distribución exponencial
+x <- rexp(10000, 1)
+
+# Calcular la suma acumulada
+y <- cumsum(x)
+
+# Visualizar la distribución de las sumas
+hist(y, breaks = 30, probability = TRUE, main = "Distribución de la suma de variables exponenciales")
+curve(dnorm(x, mean = mean(y), sd = sd(y)), add = TRUE, col = "red")
+
+```
+
+```{r}
+x <- rcauchy(10000, 0, 1)
+hist(x, breaks = 10, probability = TRUE, main = "Distribución de variables aleatorias de Cauchy")
+
+```
+
+4\. Estime el valor de $\pi$ sabiendo que el $\pi$ area de una circulo de radio 1 es $\pi$.
+
+```{r}
+
+```
+
+5.  Se tiran 5 dados. La probabilidad de que sacar generala servida (o sea los 5 dados con el mismo numero) es 1/1296. Utilizando R aprox muestre que el resultado es correcto. Cuantas veces va a tirar los 5 dados para tener un error en la estimacion de la probabilidad de sacar generala menor al 10 %? Haga un grafico mostrando la convergencia.
+
+```{r}
+# Función para simular el lanzamiento de 5 dados y contar cuántas veces obtenemos generala servida
+simular_generala <- function(n) {
+  # Generar 5 números aleatorios entre 1 y 6
+  dados <- sample(1:6, 5, replace = TRUE)
+  # Contar cuántas veces aparece el número más repetido
+  ifelse(max(table(dados)) == 5, 1, 0)
+}
+
+# Estimar la probabilidad de obtener generala servida lanzando los 5 dados 100000 veces
+set.seed(123)
+n_simulaciones <- 100000
+resultados <- replicate(n_simulaciones, simular_generala(5))
+prob_estimada <- mean(resultados)
+error_estandar <- sqrt(prob_estimada * (1 - prob_estimada) / n_simulaciones)
+cat("La probabilidad estimada de obtener generala servida es", prob_estimada, "con un error estándar de", error_estandar, "\n")
+
+```
+
+```{r}
+# Función para estimar la probabilidad de obtener generala servida con un error menor al 10%
+estimar_probabilidad <- function(error_maximo) {
+  prob_estimada <- 0
+  n_lanzamientos <- 0
+  error_estandar <- Inf
+  while (error_estandar > error_maximo) {
+    # Lanzar los 5 dados y contar cuántas veces obtenemos generala servida
+    resultados <- replicate(1000, simular_generala(5))
+    prob_estimada <- mean(resultados)
+    error_estandar <- sqrt(prob_estimada * (1 - prob_estimada) / length(resultados))
+    n_lanzamientos <- n_lanzamientos + length(resultados)
+  }
+  return(list(prob_estimada = prob_estimada, error_estandar = error_estandar, n_lanzamientos = n_lanzamientos))
+}
+
+# Estimar la probabilidad de obtener generala servida con un error menor al 10%
+set.seed(123)
+resultado <- estimar_probabilidad(0.1)
+cat("Se necesitan", resultado$n_lanzamientos, "lanzamientos de los 5 dados para que el error en la estimación sea menor al 10%\n")
+cat("La probabilidad estimada es", resultado$prob_estimada, "con un error estándar de", resultado$error_estandar, "\n")
+
+# Graficar la convergencia de la estimación de la probabilidad
+set.seed(123)
+n_simulaciones <- seq(1000, 100000, by = 1000)
+probabilidades <- numeric(length(n_simulaciones))
+for (i in seq_along(n_simulaciones)) {
+  resultados <- replicate(n_simulaciones[i], simular_generala(5))
+  probabilidades[i] <- mean(resultados)
+}
+
+```
+
+```{r}
+plot(n_simulaciones, probabilidades, type = "l", xlab = "Número de lanz
+
+```
+
+```{r}
+
+```

@@ -1,0 +1,61 @@
+---
+title: "practica_5_r"
+output: html_document
+date: '2023-05-02'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+1\. Sea X una v.a. discreta con P(X = -1) = 1/3, P(X = 0) = 1/6 y P(X = 2) = 1/2. Hallar la esperanza y la varianza de X.
+
+2\. Sea X una v.a. discreta uniforme entre 1 y 5, es decir, P(X = k) = 1/5 para k =1; 2; :::; 5. Hallar la esperanza y la varianza de X.
+
+3\. Sea X una variable aleatoria Uniforme[0,10].
+
+-   
+
+    a)  Hallar E(X).
+
+-   
+
+    b)  Hallar Var(X) con R.
+
+4\. Sea X una variable aleatoria continua cuya funcion de densidad es
+
+fX (x) = { 2x 0 \<= x \<= 1 0 en caso contrario. Hallar E(X) y Var(X) con .
+
+5\. Sea X una v.a. con E(X) = 2 y V ar(X) = 36, e Y otra v.a. que es independiente de
+
+X con E(Y ) = 3 y V ar(Y ) = 25. Hallar
+
+(a) E(X + Y ) y E(2X 􀀀 4Y )
+
+(b) V ar(X + Y ) y V ar(2X 􀀀 4Y ).
+
+6\. Un experimento consiste en arrojar 10 veces un dado de 4 caras (con los numeros del
+
+1 al 4). Llamemos X1 al resultado del primer dado dado, X2 al resultado del segundo
+
+y as sucesivamente.
+
+(a) Hallar E(X1 + X2 + ::: + X10).
+
+(b) \>Las variables aleatorias X1;X2; :::;X10 son independientes entre ellas?
+
+(c) Hallar V (X1 + X2 + ::: + X10).
+
+7\. Supongamos que E(X) =  y VarX = 2: Sea Z = (X 􀀀 ) =. Mostrar que E(Z) = 0
+
+y VarZ = 1: Luego, la transformacion hecha sobre X convierte a la variable aleatoria
+
+X en una que tiene media cero y varianza igual a 1 (aunque la distribucion de X no
+
+sea normal).
+
+8\. Se toman dos mediciones independientes, X e Y , de una cantidad : E (X) = E (Y ) =
+
+ pero X y Y no son iguales. Las dos mediciones se combinan a traves de un promedio
+
+ponderado para dar Z = X + (1 􀀀 ) Y donde  es un escalar y 0    1:

@@ -4,96 +4,251 @@ output: html_document
 date: '2023-03-30'
 ---
 
+#### 1. Un experimento consiste en arrojar una moneda equilibrada 4 veces. Hallar la función de probalilidad puntual de la v.a. número de caras por el número de cecas.
+
+En este caso, la probabilidad de obtener una cara o una ceca es siempre la misma, y el número de caras obtenido en una tirada no afecta al resultado de la siguiente tirada. Por lo tanto, podemos modelar este experimento con una distribución binomial con los siguientes parámetros:
+
+-   `n = 4`: número de tiradas del experimento.
+
+-   `p = 0.5`: probabilidad de éxito en cada tirada (obtener cara o ceca).
+
+-   `k`: número de caras en las 4 tiradas. {0,1,2,3,4}
+
+La función de probabilidad puntual de la variable aleatoria número de caras por el número de cecas es entonces:
+
+P(X = k) = (n choose k) \* p\^k \* (1-p)\^(n-k)
+
 ```{r}
+n <- 4
+p <- 0.5
+k <- 0:4
+
+dbinom(k, n, p)
 
 ```
 
-## 7. En un curso hay 50 alumnos: 23 varones y 27 mujeres. Se elige un equipo de tres alumnos para dar una clase especial.
-
-a)  ¿Cual es la probabilidad de que haya al menos un var´on en el equipo?
-b)  ¿Cual es la probabilidad de que el equipo sea mixto?
+#### 2. Sea X una variable aleatoria discreta con P(X = 0) = 0;25; P(X = 1) = 0;125; P(X = 2) = 0;125 y P(X=3)=0;50: Hallar y graficar la funcion de distribucion acumulada de X.
 
 ```{r}
-P(solo mujeres) = (27 choose 3) / (50 choose 3)
-P(al menos un varón) = 1 - P(solo mujeres)
-
+x = 0:3
+Fx = c(0.25, (0.25+0.125),(0.25+0.125+0.125),(0.25+0.125+0.125+0.5))
+#Fx <- pbinom(x, size = max(x), prob = p_x)
+plot(x, Fx, type = "S", ylim = c(0, 1), xlab = "x", ylab = "F(x)")
 
 ```
 
+#### 3. Un examen multiple choice consta de 20 preguntas, cada una con 4 opciones. Un estudiante puede descartar por incorrectas dos de estas opciones en cada una de las preguntas y elige su respuesta al azar entre las dos restantes. Para pasar el examen debe contestar correctamente 12 o mas de las preguntas. ¿Cual es la probabilidad de que el estudiante pase?
+
+x = numero de preguntas correctas al responder 20 preguntas
+
+x 'es ' Binomial (20, $\frac{1}{2}$)
+
+P(exito) = P(respondio bien) = $\frac{1}{2}$
+
+P(x \>= 12) = 20$\Sigma$ k=12 c(20 k) \* (0.5\^k) \* [(1-0.5)\^(20-k)]
+
 ```{r}
-# Número de formas en que se pueden seleccionar tres mujeres de un grupo de 27
-num_mujeres <- choose(27, 3)
+#P(x < = 11)
+1 - pbinom(11,20,0.5) 
+```
 
-# Número total de formas en que se pueden seleccionar tres alumnos de un grupo de 50
-num_total <- choose(50, 3)
+#### 4. Tres monedas se tiran simultaneamente. Se repite el experimento hasta obtener cara-cara-cara. ¿Cual es la probabilidad de tener que repetirlo mas de 3 veces?
 
-# Probabilidad de que el equipo esté compuesto solo por mujeres
-P_solo_mujeres <- num_mujeres / num_total
+x = numero de veces que tiro la moneda simultaneamente hasta sacar c-c-c
 
-# Probabilidad de que haya al menos un varón en el equipo
-P_al_menos_un_varon <- 1 - P_solo_mujeres
+x 'es' Geometrica($\frac{1}{8}$)
 
-P_al_menos_un_varon
+P(x \> 3) = 1 - P(x \<= 3) = 1 - Fallo(3) = (1 - $\frac{1}{8}$)\^3 = $(\frac{7}{8}) ^{3}$
 
+```{r}
+(7/8)^3
+```
+
+#### 5. Una linea aerea sabe que el 5% de las personas que hacen reservaciones en un cierto vuelo no viajan. Por ello, su politica de ventas es vender 52 pasajes para un vuelo en el que solo entran 50 pasajeros.(a) ¿Cual es la probabilidad de que haya un asiento disponible para cada pasajero que aparezca?(b) Al enterarse de esta politica empresarial, un pasajero que viaja semanalmente en esa linea aerea decide hacer una denuncia a la Secretaria de Transporte a la segunda vez que alguien se quede sin viajar. ¿Cual es la probabilidad de que haga la denuncia a la quinta semana de haber tomado esa resolucion? \>Y de que la haga antes de la quinta semana?
+
+a)  x = numero de pasajero que se presentan para el vuelo
+
+x 'es ' Binomial(52, 0.95)
+
+La probabilidad de que haya un asiento disponible para cada pasajero es la probabilidad que X sea menor o igual a 50.
+
+P(x\<=50) = 1 - P(x = 51) + P(x=52)
+
+```{r}
+pbinom(50,52,0.95,lower.tail = TRUE)
+```
+
+Otra forma de pensar el mismo punto es decir que Y=numero de personas que NO se presentan de un total de 52 personas
+
+P(Y\>=2) = 1 - P(Y=1)
+
+```{r}
+1 - pbinom(1,52,0.05)
+```
+
+b.  W = cantidad de semanas hasta que un pasajero no vuela por segunda vez
+
+    W es Binomial Negativa(2,1-P(x\<=50)
+
+    P(W=5) = $\binom{5-1}{2-1}$ \* [(1-0.7405)\^(5-2)] \* 0.7405\^2
+
+    ```{r}
+    # x son fracasos, size es exitos, p probabilidad
+    pnbinom(3,2,0.7405031)
+
+    ```
+
+    P(W\<5) = P(W=4)+P(W=3)+P(W=2)+P(W=1)+P(W=0)
+
+    ```{r}
+    sum(dnbinom(x=0:4, size=2, prob=pbinom(1,52,0.05)))
+    ```
+
+**6. Cinco ejemplares de una poblacion animal considerada en via de extincion en cierta region han sido atrapados, marcados y puestos en libertad para que se mezclen en la poblacion. Despues de que tuvieron oportunidad de mezclarse, se selecciono una muestra aleatoria de 10 de estos animales. Sea X la variable aleatoria "numero de animales marcados de la muestra". Si hay en realidad 25 animales de este tipo en la region, ¿cual es la probabilidad de**
+
+(a) **X = 2?**
+
+(b) **X \< =2?**
+
+(c) **X \>= 2?**
+
+a\. X es Hipergeometrica (25,5,10)
+
+```{r}
+x <- 2 # Variable a determinar su probabilidad
+m <- 5 # Casos exitosos
+n <- 20 # casos NO exitosos
+k <- 10 # tamaño de la muestra
+
+dhyper(x, m, n, k)
+```
+
+M = numero de animales marcados en la población. (5)
+
+N = es el tamaño de la población total. (25)
+
+k = tamaño de la muestra. (10)
+
+P(X = x) = (M choose x) \* (N-M choose k-x) / (N choose k)
+
+P(X = 2) = (5 choose 2) \* (20 choose 8) / (25 choose 10)
+
+P(X = 2) = (10) \* (125970) / (3268760)
+
+P(X = 2) = 0.385
+
+b\.
+
+```{r}
+x <- 2 # Variable a determinar su probabilidad
+m <- 5 # Casos exitosos
+n <- 20 # casos NO exitosos
+k <- 10 # tamaño de la muestra
+
+phyper(x, m, n, k)
+```
+
+P(x\<=2) = P(x = 0) + P(x = 1) + P(x = 2)
+
+P(x\<=2) = (5 choose 0) \* (20 choose 10) / (25 choose 10) + (5 choose 1) \* (20 choose 9) / (25 choose 10) + (5 choose 2) \* (20 choose 8) / (25 choose 10)
+
+P(x\<=2) = 0.056521739 + 0.256915996 + 0.385375494
+
+P(x\<=2) = 0.698813229
+
+## c. PREGUNTARRRRRRRRRRR
+
+P(X \>= 2) = P(X = 2) + P(X = 3) + P(X = 4) + P(X = 5) = 0.634
+
+(5 choose 2) \* (20 choose 8) / (25 choose 10) + (5 choose 3) \* (20 choose 7) / (25 choose 10) + (5 choose 4) \* (20 choose 6) / (25 choose 10) + (5 choose 5) \* (20 choose 5) / (25 choose 10)
+
+Ó
+
+P(X \>= 2) = 1 -[ P(X = 1) + P(X=0)]
+
+```{r}
+x <- 1 # Variable a determinar su probabilidad
+m <- 5 # Casos exitosos
+n <- 20 # casos NO exitosos
+k <- 10 # tamaño de la muestra
+
+A = phyper(x, m, n, k)
+1 - A
+
+1 - (dhyper(1,m,n,k)+dhyper(0,m,n,k))
+
+choose(5,2) * choose(20,8) / choose(25,10) +choose(5,3) * choose(20,7) / choose(25,10) + choose(5,4) * choose(20,6) / choose(25,10) + choose(5,5) * choose(20,5) / choose(25,10)
+```
+
+**7. Una persona juega al bingo, para lo cual posee un carton con 15 numeros del 1 al 100.**
+
+**Se sortean 40 de los 100 numeros con un bolillero. Sea X la variable aleatoria "cantidad**
+
+**de aciertos que tuvo el jugador luego de las 40 extracciones".**
+
+(a) **¿Que distribucion tiene la variable aleatoria X?**
+
+(b) **Hallar P(X = 12) y P(X \>= 13):**
+
+    a\. X es Hipergeometrica(N=100,15,40)
+
+    M = numeros en el carton (15)
+
+    N = numeros en el bolillero. (100)
+
+    k = tamaño de la muestra. (40)
+
+    P(X = x) = (M choose x) \* (N-M choose k-x) / (N choose k)
+
+    ```{r}
+    choose(15,12)*choose(100-15,40-12)/choose(100,40)
+
+    ```
+
+    Para P(X\<=13) hacemos 1 menos la acumulada en 12
+
+    ```{r}
+    M <- 15
+    N <- 100
+    k <- 40
+    P_acum <- 1 - phyper(12, M, N - M, k)
+    P_acum
+
+    ```
+
+**8. La cantidad de autos que pasan por minuto por una cierta estacion de peaje un día**
+
+**de semana tiene una distribucion de Poisson de parametro 5. Si el peaje cuesta \$40 ,**
+
+**¿cual es la probabilidad de que la estacion recaude al menos \$ 110 en un minuto?**
+
+lamda_minuto = 5 = L
+
+\$110 = minumo 3 autos = P(Z \>=3) = [(e\^-L) \* L\^3] / 3!
+
+1 - P(Z\<=2) = 1 - [P(Z=0) + P(Z=1) + P(Z=2)]
+
+[(e\^-L) \* L\^0] / 0! + [(e\^-L) \* L\^2] / 2! + [(e\^-1) \* L\^1] / 1!
+
+```{r}
+1 - ppois(2, 5)
 
 ```
 
-###Para decidir si acepta o rechaza una partida de productos, un comprador elige k articulos (sin reemplazo) de un lote de 100, y rechaza el lote si ###encuentra uno o mas defectuosos. a) Suponiendo que k = 5, grafucar la probabilidad de que el lote se acepte como una funcion del numero de articulos defectuosos en el lote.
+**9. Las llamadas telefonicas que se reciben en una cierta residencia siguen un proceso de**
 
-```{r}
-k <- 5  # número de artículos que se eligen
-n <- 100  # tamaño del lote
-defectuosos <- 0:8  # posibles números de artículos defectuosos en el lote
+**Poisson con parametro** $\lambda$ **= 2 por hora.**
 
-# calcular la probabilidad de aceptación del lote para cada posible número de artículos defectuosos
-prob_aceptacion <- sapply(defectuosos, function(d) {
-  choose(n-d, k) / choose(n, k)
-})
+(a) **Si Diana toma una ducha de 10 minutos, ¿cual es la probabilidad de que el telefono suene durante ese tiempo?**
 
-# graficar la probabilidad de aceptación del lote en función del número de artículos defectuosos
-plot(defectuosos, prob_aceptacion, type = "o", xlab = "Número de artículos defectuosos", ylab = "Probabilidad de aceptación del lote")
+(b) **¿Cuan larga puede ser la ducha si ella quiere que la probabilidad de no recibir**
 
-```
+    **llamadas sea como minimo 0.5?**
 
-```{r}
-# Función para calcular el número de permutaciones derangement
-derangement <- function(n) {
-  if(n==0) return(1)
-  if(n==1) return(0)
-  return((n-1) * (derangement(n-1) + derangement(n-2)))
-}
+    a:
 
-# Valores de N
-N <- 2:10
+**10. Si X es una variable aleatoria geometrica, probar la siguiente "propiedad de falta de**
 
-# Probabilidad de que ninguna ficha esté en su lugar correcto
-p <- sapply(N, function(n) derangement(n)/factorial(n))
+**memoria":**
 
-# Gráfico
-plot(N, p, type="b", ylim=c(0,0.4), xlab="N", ylab="P(ninguna ficha en su lugar correcto)", main="Probabilidad de derangement")
-abline(h=1/exp(1), col="red")
-
-```
-
-```{r}
-probabilidad <- function(n) {
-  if (n == 1) {
-    return(0)
-  } else if (n == 2) {
-    return(1/2)
-  } else {
-    return((n-1)*(probabilidad(n-1) + probabilidad(n-2)))
-  }
-}
-# Valores de N
-N <- 2:10
-
-# Probabilidad de que ninguna ficha esté en su lugar correcto
-p <- sapply(N, function(N) probabilidad(N)/factorial(N))
-
-# Gráfico
-plot(N, p, type="b", ylim=c(0,0.4), xlab="N", ylab="P(ninguna ficha en su lugar correcto)", main="Probabilidad de derangement")
-abline(h=1/exp(1), col="red")
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+**P (X \> n + k j X \> n) = P (X \> k)**

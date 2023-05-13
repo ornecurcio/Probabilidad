@@ -1,0 +1,189 @@
+---
+title: "Practica_4_r"
+output: html_document
+date: '2023-04-25'
+---
+
+#### 1. Supongamos que la función de densidad de X es
+
+f (x) = { 3x para 0 ≤ x ≤ 1 0 en otro caso (a) Utilizando R calcular P (0,1 ≤ X ≤ 0,5).
+
+```{r}
+f = function(x) 3*x^2
+integrate(f, lower = 0.1, upper = 0.5)$value
+
+```
+
+#### 2. Sea X una variable aleatoria uniforme en [a, b]. Hallar su funcion de distribución acumulada.
+
+La función de distribución acumulada (FDA) de una variable aleatoria uniforme X en [a,b] es una función que asigna a cada número real t en el intervalo (-∞, ∞) la probabilidad de que X sea menor o igual a t. La función de distribución acumulada viene dada por:
+
+F(t) = P(X \<= t) = { 0 si t \< a, (t-a)/(b-a) si a \<= t \< b, 1 si t \>= b }
+
+Donde P(X \<= t) es la probabilidad de que X sea menor o igual a t. En este caso, como la variable aleatoria es uniforme, la probabilidad en cada punto es proporcional a la longitud del intervalo, y por lo tanto, la FDA es lineal en el intervalo [a,b].
+
+```{r}
+
+```
+
+#### 3. Supongamos que la duración de un componente electrónico sigue una distribución exponencial con parametro λ = 1. Utilizando R: (a) Hallar la probabilidad de que la duracion sea menor a 2. (b) Hallar la probabilidad de que la duracion este entre 2 y 8. (c) Hallar t tal que la probabilidad de que la duracion sea mayor a t es 0.25.
+
+```{r}
+f = function(x) {exp(-x)}
+#la probabilidad de la duracion menor a dos es 1 - la integral de mas de dos
+y = integrate(f, lower = 2, upper = Inf)$value
+1-y
+```
+
+```{r}
+f = function(x) {exp(-x)}
+#la probabilidad de la duracion menor a dos es 1 - la integral de mas de dos
+proba_2_8 = integrate(f, lower = 2, upper = 8)$value
+proba_2_8
+```
+
+```{r}
+#La formula de la exponcial es: λe^(−λx) en el ejemplo λ es 1: 
+#e^-x = 0.25
+y = -log(0.25)
+#crequeamos que la integrada en ese valor de 0.25: 
+integrate(f,y,Inf)$value
+```
+
+#### 4. Sea T una variable aleatoria exponencial de parametro λ. Utilizando R, determinar en forma aproximada λ para que se cumpla P (T \< 1) = 0,05. F(T) = 1 - exp(-λ\*T)
+
+Para resolver la ecuación P(T \< 1) = 0.05, podemos escribir:
+
+0.05 = 1 - λ\*exp(-λ\*1)
+
+λ\*exp(-λ\*1) = 0.95
+
+-λ = log(0.95)
+
+λ = -log(0.95)
+
+```{r}
+lambda = -log(0.95)
+lambda
+```
+
+#### 5. El ingreso anual de los jefes de familia de una cierta ciudad se puede modelar con una distribucion exponencial con λ = 0,00001. Para clasificar a los hogares de esa ciudad se ha decidido dividir a la poblacion en 5 grupos igualmente numerosos: clase baja, clase media-baja, clase media, clase media-alta y clase alta de modo que el 20 % de la poblacion pertenezca a cada uno de ellos, es decir, el 20 % de los hogares con menores ingresos entran dentro de la clase baja, el segundo 20 % sera clasificado dentro de la clase media-baja, etc. Hallar los salarios que indican el salto de categorıa. Observacion: Los valores hallados representan los cuantiles 0.20, 0.40, 0.60 y 0.80 respectivamente.
+
+F(x) = 1 - e\^(-λx)
+
+F\^(-1)(p) = - ln(1-p) / λ F\^(-1)(0.20) = - ln(1-0.20) / 0.00001 = 22314.36
+
+F\^(-1)(0.40) = - ln(1-0.40) / 0.00001 = 51082.56 F\^(-1)(0.60) = - ln(1-0.60) / 0.00001 = 91629.07
+
+F\^(-1)(0.80) = - ln(1-0.80) / 0.00001 =160943.79
+
+```{r}
+# Definir los cuantiles
+cuantiles <- c(0.20, 0.40, 0.60, 0.80)
+
+# Definir parámetro lambda
+lambda <- 0.00001
+
+# Calcular los salarios que indican el salto de categoría
+salarios <- qexp(cuantiles, rate=lambda)
+
+# Imprimir los resultados
+cat("Los salarios que indican el salto de categoría son:", salarios)
+
+```
+
+#### 6. Sea X una variable aleatoria normal con µ = 5 y σ = 10. Hallar con R:
+
+(a) P (X \< 0), P (X \> 10), P (X ≥ 15).
+(b) P (−20 \< X \< 15), P (−5 ≤ X ≤ 30).
+(c) el valor de x tal que P (X \> x) = 0,05.
+(d) el valor de x tal que P (X \< x) = 0,23.
+
+```{r}
+x = c(-30:50)
+y = dnorm(x,5,10)
+plot(x,y)
+```
+
+```{r}
+#a
+mu = 5
+sigma = 10
+P_X_menor_a_0 = pnorm(0, mu, sigma)
+P_X_menor_a_0
+
+P_X_mayor_10 = 1 - pnorm(10,mu,sigma)
+P_X_mayor_10 
+
+P_X_mayor_15 = 1 - pnorm(15,mu,sigma)
+P_X_mayor_15
+```
+
+```{r}
+#c
+X = qnorm(0.05,mean = mu, sigma)
+X 
+
+#d
+X = qnorm(0.23,mean = mu, sigma)
+X 
+```
+
+```{r}
+#para normalizar la curva a 0.1 x - mu / sigma 
+
+```
+
+#### 7. Sea T una variable aleatoria exponencial con parametro λ = 2
+
+(a) **Sea X una variable aleatoria discreta definida del siguiente modo: X = 0 si 0 ≤ T \< 1 X = 1 si 1 ≤ T \< 2 X = 2 si T ≥ 2 Utilizando R hallar la funcion de frecuencia de X.**
+
+    ## PREGUNTAAARRRRR
+
+```{r}
+# Establecer una semilla para reproducibilidad de los resultados
+set.seed(1234)
+
+# Generar valores aleatorios de T utilizando una distribución exponencial con λ = 2
+T <- rexp(1000, 2)
+
+# Definir X basado en los valores de T
+X <- ifelse(T < 1, 0, ifelse(T < 2, 1, 2))
+
+# Calcular la tabla de frecuencia de X
+table(X)
+
+```
+
+(b) **Sea Y una variable aleatoria discreta definida del siguiente modo: Y = k si k ≤ T \< k + 1, k = 0, 1, 2 . . . Utilizando hallar la funcion de probabilidad de Y. ¿Le suena conocida la variable Y ?, ¿que ley tiene Y ?**
+
+    ## PREGUNTARRRRRRR
+
+```{r}
+
+```
+
+8.  La funcion de distribucion acumulada de Cauchy es F (x) = 1 2
+
+-   1 π arctan (x), x ∈ R
+
+(a) Graficar en para probar que efectivamente es una funcion de distribucion acumulada.
+(b) Hallar x tal que P (X \> x) = 0,1.
+
+```{r}
+# Definir la ubicación y escala de la distribución
+x0 <- 0
+gamma <- 1
+
+# Definir la función de distribución acumulada de la distribución de Cauchy
+F <- function(x) {
+  1/pi * atan((x-x0)/gamma) + 1/2
+}
+
+# Graficar la función en un rango de valores de x
+curve(F, from = -10, to = 10, ylab = "P(X ≤ x)", xlab = "x")
+
+
+```
+
+## b: preguntarrrrr
